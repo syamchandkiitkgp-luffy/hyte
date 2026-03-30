@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HyTE Workflow Presentation</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2e7bcf;
+            --secondary: #6c5ce7;
+            --accent: #00cec9;
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text: #f1f5f9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 20px;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 60px;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        /* The Animated Line */
+        .line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-50%);
+            z-index: 0;
+        }
+
+        .line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            animation: grow-line 10s linear infinite;
+        }
+
+        @keyframes grow-line {
+            0% {
+                height: 0;
+            }
+
+            100% {
+                height: 100%;
+            }
+        }
+
+        .node {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .node.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card {
+            width: 45%;
+            padding: 25px;
+            border-radius: 20px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
+        }
+
+        .node:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            background: var(--primary);
+        }
+
+        .card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .dot {
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        /* Flow Path Visuals */
+        .icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            margin-top: 100px;
+            opacity: 0.5;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>HyTE Workflow</h1>
+    <p class="subtitle">A stateful Agentic lifecycle for Telecom Hypothesis Testing powered by LangGraph and Gemini</p>
+
+    <div class="container">
+        <div class="line"></div>
+
+        <!-- Step 1 -->
+        <div class="node active">
+            <div class="card">
+                <div class="badge">Trigger</div>
+                <div class="icon">💡</div>
+                <h3>User Hypothesis</h3>
+                <p>User submits a natural language hypothesis. The <strong>Conversational Orchestrator</strong>
+                    initiates the graph state.</p>
+            </div>
+            <div class="dot"></div>
+            <div style="width: 45%;"></div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="node active" style="transition-delay: 0.2s;">
+            <div style="width: 45%;"></div>
+            <div class="dot"></div>
+            <div class="card">
+                <div class="badge">Grounding</div>
+                <div class="icon">🔍</div>
+                <h3>RAG Retriever</h3>
+                <p>Identifies relevant database tables and columns from the <strong>Enriched Data Dictionary</strong> to
+                    provide context.</p>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="node active" style="transition-delay: 0.4s;">
+            <div class="card">
+                <div class="badge">Planning</div>
+                <div class="icon">📊</div>
+                <h3>Methodology Agent</h3>
+                <p>Designs a statistical analysis approach, defining metrics, filters, and success criteria for the
+                    test.</p>
+            </div>
+            <div class="dot"></div>
+            <div style="width: 45%;"></div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="node active" style="transition-delay: 0.6s;">
+            <div style="width: 45%;"></div>
+            <div class="dot"></div>
+            <div class="card">
+                <div class="badge">Logic</div>
+                <div class="icon">📑</div>
+                <h3>Pseudo-code Agent</h3>
+                <p>Translates abstract methodology into actionable logical steps, creating a clear blueprint for
+                    implementation.</p>
+            </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="node active" style="transition-delay: 0.8s;">
+            <div class="card">
+                <div class="badge">Implementation</div>
+                <div class="icon">🐍</div>
+                <h3>Code Gen Agent</h3>
+                <p>Writes a production-quality Python script grounded in the retrieved metadata and following the
+                    pseudo-code logic.</p>
+            </div>
+            <div class="dot"></div>
+            <div style="width: 45%;"></div>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="node active" style="transition-delay: 1s;">
+            <div style="width: 45%;"></div>
+            <div class="dot"></div>
+            <div class="card">
+                <div class="badge">Action</div>
+                <div class="icon">🚀</div>
+                <h3>Execution Agent</h3>
+                <p>Runs the code against the datalake. If it fails, a <strong>Self-Correction Loop</strong> triggers
+                    back to Code Gen.</p>
+            </div>
+        </div>
+
+        <!-- Step 7 -->
+        <div class="node active" style="transition-delay: 1.2s;">
+            <div class="card">
+                <div class="badge">Evaluation</div>
+                <div class="icon">🧪</div>
+                <h3>Evaluation Agent</h3>
+                <p>Analyzes the final artifacts and feedback to score performance and suggest prompt improvements or
+                    guardrails.</p>
+            </div>
+            <div class="dot"></div>
+            <div style="width: 45%;"></div>
+        </div>
+
+    </div>
+
+    <footer>Generated by Antigravity for HyTE Project</footer>
+
+    <script>
+        // Intersection Observer for scroll-into-view animations
+        const observerOptions = {
+            threshold: 0.2
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.node').forEach(node => {
+            observer.observe(node);
+        });
+    </script>
+</body>
+
+</html>
